@@ -1,0 +1,31 @@
+﻿body {
+    color: #7F878F;
+    background: #999999;
+    text-align: center;
+    font-family: Helvetica;
+}
+#grid {
+    margin: 4px;
+    padding: 5px;
+    background: #ccccff;
+    min-height: 500px;
+    border: 1px solid #eebb55;
+    border-radius: 7px;
+}
+
+.row {
+    display: flex;
+}
+
+.cell {
+    background: #8888bb;
+    color: #FFFFFF;
+    border: 1px solid #ccccff;
+    border-radius: 5px;
+    flex: 1;
+    height: 10vh;
+}
+.cell img {
+    width: 100%;
+    height: 100%;
+}
