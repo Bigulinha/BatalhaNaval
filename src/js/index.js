@@ -10,33 +10,38 @@ function ramdomizeGrid() {
         for (var j = 0; j < ships[i].shipQuantity; ++j) {
             var direction = getDirection();
             if (direction === "horizontal") {
-                matrix = ramdomizeGridHorizontal(matrix, ships[i]);
+                setHorizontalShip(matrix, ships[i]);
             } else {
-                matrix = ramdomizeGridVertical(matrix, ships[i]);
+                setVerticalShip(matrix, ships[i]);
             }
         }
     }
 }
-function ramdomizeGridHorizontal(matrix, ship) {
+function setHorizontalShip(matrix, ship) {
     var availableRowSpaces = getVerificationSpaceHorizontal(matrix, ship.shipSize);
     var row_availableSpaces = getRndInteger(0, availableRowSpaces.length - 1);
     var row = availableRowSpaces[row_availableSpaces].row;
-    var column = getRndInteger(availableRowSpaces[row_availableSpaces].init, availableRowSpaces[row_availableSpaces].init + (availableRowSpaces[row_availableSpaces].gap - ship.shipSize));
+    var init = availableRowSpaces[row_availableSpaces].init;
+    var gap = availableRowSpaces[row_availableSpaces].gap;
+    var column = getRndInteger(init, init + (gap - ship.shipSize));
+    var count = 0;
     for (var k = column; k < column + ship.shipSize; ++k) {
         matrix[row][k] = ship.shipSize;
+        insertHtmlShipImg(row, k, ship.shipSize, "horizontal", count++);
     }
-    return matrix;
 }
-function ramdomizeGridVertical(matrix, ship) {
+function setVerticalShip(matrix, ship) {
     var availableColumnSpaces = getVerificationSpaceVertical(matrix, ship.shipSize);
     var column_availableSpaces = getRndInteger(0, availableColumnSpaces.length - 1);
     var column = availableColumnSpaces[column_availableSpaces].column;
-    var row = getRndInteger(availableColumnSpaces[column_availableSpaces].init, availableColumnSpaces[column_availableSpaces].init + (availableColumnSpaces[column_availableSpaces].gap - ship.shipSize));
-
+    var init = availableColumnSpaces[column_availableSpaces].init;
+    var gap = availableColumnSpaces[column_availableSpaces].gap;
+    var row = getRndInteger(init, init + (gap - ship.shipSize));
+    var count = 0;
     for (var k = row; k < row + ship.shipSize; ++k) {
         matrix[k][column] = ship.shipSize;
+        insertHtmlShipImg(k, column, ship.shipSize, "vertical", count++);
     }
-    return matrix;
 }
 function getDirection() {
     var rand = getRndInteger(0, 1);
@@ -125,4 +130,11 @@ function getVerificationSpaceVertical(matrix, shipSize) {
         total = 0;
     }
     return verticalSpaces;
+}
+function insertHtmlShipImg(row, column, shipSize, direction, count) {
+    var htmlRows = document.getElementsByClassName("row");
+    var selectedRow = htmlRows[row];
+    var selectedColumn = selectedRow.children[column];
+    var newSrcImg = selectedColumn.children[1].src.replace("water", "ships/" + direction + "/" + shipSize).replace("agua_tem_nada", count);
+    selectedColumn.children[1].src = newSrcImg;
 }
