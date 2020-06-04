@@ -2,6 +2,8 @@ function showTry(e) {
     var parent = e.parentElement;
     parent.children[0].setAttribute("hidden", "hidden");
     parent.children[1].removeAttribute("hidden");
+    if (!parent.children[1].src.includes("agua_tem_nada"))
+        calculateScore(parent.children[1]);
 }
 function ramdomizeGrid() {
     var matrix = getMatrix();
@@ -10,14 +12,14 @@ function ramdomizeGrid() {
         for (var j = 0; j < ships[i].shipQuantity; ++j) {
             var direction = getDirection();
             if (direction === "horizontal") {
-                setHorizontalShip(matrix, ships[i]);
+                setHorizontalShip(matrix, ships[i], j);
             } else {
-                setVerticalShip(matrix, ships[i]);
+                setVerticalShip(matrix, ships[i], j);
             }
         }
     }
 }
-function setHorizontalShip(matrix, ship) {
+function setHorizontalShip(matrix, ship, currentShip) {
     var availableRowSpaces = getVerificationSpaceHorizontal(matrix, ship.shipSize);
     var row_availableSpaces = getRndInteger(0, availableRowSpaces.length - 1);
     var row = availableRowSpaces[row_availableSpaces].row;
@@ -27,10 +29,10 @@ function setHorizontalShip(matrix, ship) {
     var count = 0;
     for (var k = column; k < column + ship.shipSize; ++k) {
         matrix[row][k] = ship.shipSize;
-        insertHtmlShipImg(row, k, ship.shipSize, "horizontal", count++);
+        insertHtmlShipImg(row, k, ship.shipSize, "horizontal", count++, currentShip);
     }
 }
-function setVerticalShip(matrix, ship) {
+function setVerticalShip(matrix, ship, currentShip) {
     var availableColumnSpaces = getVerificationSpaceVertical(matrix, ship.shipSize);
     var column_availableSpaces = getRndInteger(0, availableColumnSpaces.length - 1);
     var column = availableColumnSpaces[column_availableSpaces].column;
@@ -40,7 +42,7 @@ function setVerticalShip(matrix, ship) {
     var count = 0;
     for (var k = row; k < row + ship.shipSize; ++k) {
         matrix[k][column] = ship.shipSize;
-        insertHtmlShipImg(k, column, ship.shipSize, "vertical", count++);
+        insertHtmlShipImg(k, column, ship.shipSize, "vertical", count++, currentShip);
     }
 }
 function getDirection() {
@@ -59,10 +61,10 @@ function getMatrix() {
 }
 function getShipObject() {
     return [
-        { shipSize: 5, shipQuantity: 1 },
-        { shipSize: 4, shipQuantity: 2 },
-        { shipSize: 3, shipQuantity: 2 },
-        { shipSize: 2, shipQuantity: 3 }
+        { shipSize: 5, shipQuantity: 1, shipPoints: 10 },
+        { shipSize: 4, shipQuantity: 1, shipPoints: 8 },
+        { shipSize: 3, shipQuantity: 2, shipPoints: 6 },
+        { shipSize: 2, shipQuantity: 3, shipPoints: 4 }
     ];
 }
 function getRndInteger(min, max) {
@@ -131,10 +133,29 @@ function getVerificationSpaceVertical(matrix, shipSize) {
     }
     return verticalSpaces;
 }
-function insertHtmlShipImg(row, column, shipSize, direction, count) {
+function insertHtmlShipImg(row, column, shipSize, direction, count, currentShip) {
     var htmlRows = document.getElementsByClassName("row");
     var selectedRow = htmlRows[row];
     var selectedColumn = selectedRow.children[column];
-    var newSrcImg = selectedColumn.children[1].src.replace("water", "ships/" + direction + "/" + shipSize).replace("agua_tem_nada", count);
-    selectedColumn.children[1].src = newSrcImg;
+    var selectedImage = selectedColumn.children[1];
+    var newSrcImg = selectedImage.src.replace("water", "ships/" + direction + "/" + shipSize).replace("agua_tem_nada", count);
+    selectedImage.src = newSrcImg;
+    if (count === 0) {
+        selectedImage.setAttribute("remaining", shipSize);
+        selectedImage.id = "ship" + shipSize + "position" + currentShip;
+        selectedImage.setAttribute("headShip", "ship" + shipSize + "position" + currentShip);
+    } else {
+        var headShip = $("#ship" + shipSize + "position" + currentShip)[0].id;
+        selectedImage.setAttribute("headShip", headShip);
+    }
+}
+function calculateScore(currentImageShip) {
+    var headShipId = currentImageShip.getAttribute("headShip");
+    var headShip = document.getElementById(headShipId);
+    var remainingShips = headShip.getAttribute("remaining");
+    remainingShips = parseInt(remainingShips) - 1;
+    headShip.setAttribute("remaining", remainingShips);
+    if (remainingShips === 0) {
+        alert("AECARAIO")
+    }
 }
