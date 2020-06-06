@@ -1,9 +1,15 @@
-function showTry(e) {
+function onBoardClick(e) {
     var parent = e.parentElement;
-    parent.children[0].setAttribute("hidden", "hidden");
-    parent.children[1].removeAttribute("hidden");
+    if (parent.children[0].getAttribute("hidden") === "hidden")
+        return;
+    showTry(parent);
     if (!parent.children[1].src.includes("agua_tem_nada"))
         calculateScore(parent.children[1]);
+    movesForCurrentPlayer();
+}
+function showTry(parent) {
+    parent.children[0].setAttribute("hidden", "hidden");
+    parent.children[1].removeAttribute("hidden");
 }
 function ramdomizeGrid() {
     var matrix = getMatrix();
@@ -144,6 +150,7 @@ function insertHtmlShipImg(row, column, shipSize, direction, count, currentShip)
         selectedImage.setAttribute("remaining", shipSize);
         selectedImage.id = "ship" + shipSize + "position" + currentShip;
         selectedImage.setAttribute("headShip", "ship" + shipSize + "position" + currentShip);
+        selectedImage.setAttribute("shipSize", shipSize);
     } else {
         var headShip = $("#ship" + shipSize + "position" + currentShip)[0].id;
         selectedImage.setAttribute("headShip", headShip);
@@ -156,6 +163,29 @@ function calculateScore(currentImageShip) {
     remainingShips = parseInt(remainingShips) - 1;
     headShip.setAttribute("remaining", remainingShips);
     if (remainingShips === 0) {
-        alert("AECARAIO")
+        var shipSize = parseInt(headShip.getAttribute("shipSize"));
+        var allShips = getShipObject();
+        var shipScore = allShips.find(f => f.shipSize === shipSize).shipPoints;
+        var currentPlayer = document.getElementById("grid").getAttribute("currentPlayer");
+        currentPlayer = parseInt(currentPlayer);
+        currentPlayer = document.getElementById("players").children[currentPlayer];
+        var totalScore = currentPlayer.getAttribute("score");
+        totalScore = parseInt(totalScore) + shipScore;
+        currentPlayer.setAttribute("score", totalScore);
+    }
+}
+function movesForCurrentPlayer() {
+    var board = document.getElementById("grid");
+    var moves = board.getAttribute("movesPlayed");
+    moves = parseInt(moves) + 1;
+    board.setAttribute("movesPlayed", moves);
+    changePlayer(moves, board);
+}
+function changePlayer(moves, board) {
+    if (moves === 5) {
+        board.setAttribute("movesPlayed", 0);
+        var player = board.getAttribute("currentPlayer");
+        player = parseInt(player) + 1;
+        board.setAttribute("currentPlayer", player);
     }
 }
