@@ -11,7 +11,7 @@ function showTry(parent) {
     parent.children[0].setAttribute("hidden", "hidden");
     parent.children[1].removeAttribute("hidden");
 }
-function ramdomizeGrid() {
+function randomizeGrid() {
     var matrix = getMatrix();
     var ships = getShipObject();
     for (var i = 0; i < ships.length; ++i) {
