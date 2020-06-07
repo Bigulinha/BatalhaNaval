@@ -140,7 +140,7 @@ function getVerificationSpaceVertical(matrix, shipSize) {
     return verticalSpaces;
 }
 function insertHtmlShipImg(row, column, shipSize, direction, count, currentShip) {
-    var htmlRows = document.getElementsByClassName("row");
+    var htmlRows = document.getElementsByClassName("rowGrid");
     var selectedRow = htmlRows[row];
     var selectedColumn = selectedRow.children[column];
     var selectedImage = selectedColumn.children[1];
@@ -189,3 +189,57 @@ function changePlayer(moves, board) {
         board.setAttribute("currentPlayer", player);
     }
 }
+
+function showPlayersNames(e) {
+
+    var playersQuantity = parseInt(e.getAttribute("value"))
+    switch (playersQuantity) {
+        case 1:
+            document.getElementById("firstPlayerName").removeAttribute("hidden");
+            document.getElementById("secondPlayerName").setAttribute("hidden", "hidden");
+            document.getElementById("thirdPlayerName").setAttribute("hidden", "hidden");
+            document.getElementById("fourthPlayerName").setAttribute("hidden", "hidden");
+            break;
+
+        case 2:
+            document.getElementById("firstPlayerName").removeAttribute("hidden");
+            document.getElementById("secondPlayerName").removeAttribute("hidden");
+            document.getElementById("thirdPlayerName").setAttribute("hidden", "hidden");
+            document.getElementById("fourthPlayerName").setAttribute("hidden", "hidden");
+            break;
+
+        case 3:
+            document.getElementById("firstPlayerName").removeAttribute("hidden");
+            document.getElementById("secondPlayerName").removeAttribute("hidden");
+            document.getElementById("thirdPlayerName").removeAttribute("hidden");
+            document.getElementById("fourthPlayerName").setAttribute("hidden", "hidden");
+            break;
+
+        case 4:
+            document.getElementById("firstPlayerName").removeAttribute("hidden");
+            document.getElementById("secondPlayerName").removeAttribute("hidden");
+            document.getElementById("thirdPlayerName").removeAttribute("hidden");
+            document.getElementById("fourthPlayerName").removeAttribute("hidden");
+            break;
+    }
+}
+
+function startGameOnClick() {
+
+    var childForm = document.getElementById("formPlayersName").children
+    for (var i = 0; i < childForm.length; ++i) {
+        if (!childForm[i].hasAttribute("hidden")) {
+            childForm[i].getElementsByTagName("input")[0].value;
+            if (childForm[i].getElementsByTagName("input")[0].value === "") {
+                alert("Preencha o seu nome!");
+                return;
+            }
+        }
+    }
+    document.getElementById("inicialPage").setAttribute("hidden", "hidden");
+    document.getElementById("boardScreen").removeAttribute("hidden");
+    randomizeGrid();
+
+
+}
+
