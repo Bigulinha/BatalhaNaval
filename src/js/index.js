@@ -1,4 +1,6 @@
 function onBoardClick(e) {
+    if (!document.getElementById("changePlayerButton").classList.contains("hideButton"))
+        return;
     var parent = e.parentElement;
     if (parent.children[0].getAttribute("hidden") === "hidden")
         return;
@@ -195,9 +197,9 @@ function changePlayer(moves, board) {
         board.setAttribute("currentPlayer", player);
         var playerPlaying = document.getElementById("players").children[player].getAttribute("name");
         document.getElementById("currentPlayerPlaying").textContent = playerPlaying + " esta jogando!";
-
-
+        document.getElementById("changePlayerButton").className = "btn btn-info";
     }
+
 }
 
 function showPlayersNames(e) {
@@ -279,5 +281,8 @@ function createMapPlayers() {
     document.getElementById("currentPlayerPlaying").textContent = childForm[0].getElementsByTagName("input")[0].value + " esta jogando!";
     document.getElementById("grid").setAttribute("totalPlayers", countPlayers - 1);
 }
+function unlockPlay() {
+    document.getElementById("changePlayerButton").className = "btn btn-info hideButton";
 
+}
 

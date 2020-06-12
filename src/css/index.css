@@ -69,3 +69,12 @@
 #footer {
     text-align: center;
 }
+
+.playerDisplay {
+    padding: 3vh;
+    font-size: 3vh;
+}
+
+.hideButton{
+    visibility: hidden;
+}
