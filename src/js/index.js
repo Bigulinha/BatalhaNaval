@@ -141,9 +141,9 @@ function getVerificationSpaceVertical(matrix, shipSize) {
 }
 function insertHtmlShipImg(row, column, shipSize, direction, count, currentShip) {
     var htmlRows = document.getElementsByClassName("rowGrid");
-    var selectedRow = htmlRows[row];
-    var selectedColumn = selectedRow.children[column];
-    var selectedImage = selectedColumn.children[1];
+    var selectedRow = htmlRows[row].getElementsByClassName("cell");
+    var selectedColumn = selectedRow[column];
+    var selectedImage = selectedColumn.children[selectedColumn.childElementCount - 1];
     var newSrcImg = selectedImage.src.replace("water", "ships/" + direction + "/" + shipSize).replace("agua_tem_nada", count);
     selectedImage.src = newSrcImg;
     if (count === 0) {
