@@ -151,6 +151,7 @@ function insertHtmlShipImg(row, column, shipSize, direction, count, currentShip)
         selectedImage.id = "ship" + shipSize + "position" + currentShip;
         selectedImage.setAttribute("headShip", "ship" + shipSize + "position" + currentShip);
         selectedImage.setAttribute("shipSize", shipSize);
+        selectedImage.setAttribute("direction", direction);
     } else {
         var headShip = $("#ship" + shipSize + "position" + currentShip)[0].id;
         selectedImage.setAttribute("headShip", headShip);
@@ -182,11 +183,20 @@ function movesForCurrentPlayer() {
     changePlayer(moves, board);
 }
 function changePlayer(moves, board) {
+
     if (moves === 5) {
+        if (board.getAttribute("totalPlayers") === board.getAttribute("currentPlayer")) {
+            alert("O jogo acabou!");
+            return;
+        }
         board.setAttribute("movesPlayed", 0);
         var player = board.getAttribute("currentPlayer");
         player = parseInt(player) + 1;
         board.setAttribute("currentPlayer", player);
+        var playerPlaying = document.getElementById("players").children[player].getAttribute("name");
+        document.getElementById("currentPlayerPlaying").textContent = playerPlaying + " esta jogando!";
+
+
     }
 }
 
@@ -225,21 +235,49 @@ function showPlayersNames(e) {
 }
 
 function startGameOnClick() {
+    if (!validatePlayers())
+        return;
 
+    document.getElementById("inicialPage").setAttribute("hidden", "hidden");
+    document.getElementById("boardScreen").removeAttribute("hidden");
+    randomizeGrid();
+
+    createMapPlayers();
+}
+function validatePlayers() {
     var childForm = document.getElementById("formPlayersName").children
     for (var i = 0; i < childForm.length; ++i) {
         if (!childForm[i].hasAttribute("hidden")) {
             childForm[i].getElementsByTagName("input")[0].value;
             if (childForm[i].getElementsByTagName("input")[0].value === "") {
                 alert("Preencha o seu nome!");
-                return;
+                return false;
             }
         }
     }
-    document.getElementById("inicialPage").setAttribute("hidden", "hidden");
-    document.getElementById("boardScreen").removeAttribute("hidden");
-    randomizeGrid();
 
-
+    return true;
 }
+function createMapPlayers() {
+    var childForm = document.getElementById("formPlayersName").children;
+    var countPlayers = 0;
+    for (var i = 0; i < childForm.length; ++i) {
+        if (!childForm[i].hasAttribute("hidden")) {
+            var playerName = childForm[i].getElementsByTagName("input")[0].value;
+            var spanPlayer = document.createElement("span");
+            spanPlayer.setAttribute("player", i);
+            spanPlayer.setAttribute("score", 0);
+            spanPlayer.setAttribute("name", playerName);
+            document.getElementById("players").appendChild(spanPlayer);
+            var playerDisplay = document.createElement("h1");
+            playerDisplay.textContent = playerName;
+            playerDisplay.className += "playerDisplay"; //Classe para fazer o css dos nomes ao lado do board
+            document.getElementById("playerNames").appendChild(playerDisplay);
+            ++countPlayers;
+        }
+    }
+    document.getElementById("currentPlayerPlaying").textContent = childForm[0].getElementsByTagName("input")[0].value + " esta jogando!";
+    document.getElementById("grid").setAttribute("totalPlayers", countPlayers - 1);
+}
+
 
