@@ -69,10 +69,10 @@ function getMatrix() {
 }
 function getShipObject() {
     return [
-        { shipSize: 5, shipQuantity: 1, shipPoints: 10 },
-        { shipSize: 4, shipQuantity: 1, shipPoints: 8 },
-        { shipSize: 3, shipQuantity: 2, shipPoints: 6 },
-        { shipSize: 2, shipQuantity: 3, shipPoints: 4 }
+        { shipSize: 5, shipQuantity: 1, shipPoints: 10, shipImage: '<img src="../img/ships/horizontal/5/inteiro5.png"/>' },
+        { shipSize: 4, shipQuantity: 1, shipPoints: 8, shipImage: '<img src="../img/ships/horizontal/4/inteiro4.png"/>' },
+        { shipSize: 3, shipQuantity: 2, shipPoints: 6, shipImage: '<img src="../img/ships/horizontal/3/inteiro3.png"/>' },
+        { shipSize: 2, shipQuantity: 3, shipPoints: 4, shipImage: '<img src="../img/ships/horizontal/2/inteiro2.png"/>' }
     ];
 }
 function getRndInteger(min, max) {
@@ -175,6 +175,15 @@ function calculateScore(currentImageShip) {
         var totalScore = currentPlayer.getAttribute("score");
         totalScore = parseInt(totalScore) + shipScore;
         currentPlayer.setAttribute("score", totalScore);
+        var findShipImage = allShips.find(f => f.shipSize === shipSize).shipImage;
+        var currentPlayerEndGame = document.getElementById("grid").getAttribute("currentPlayer");
+        currentPlayerEndGame = parseInt(currentPlayerEndGame);
+        currentPlayerEndGame = document.getElementsByClassName("playerDisplay")[currentPlayerEndGame];
+        var divImage = document.createElement("div");
+        divImage.className += "imageEndGameScore row";
+        divImage.innerHTML = findShipImage;
+        divImage.setAttribute("hidden", "hidden")
+        currentPlayerEndGame.appendChild(divImage);
     }
 }
 function movesForCurrentPlayer() {
@@ -188,7 +197,7 @@ function changePlayer(moves, board) {
 
     if (moves === 5) {
         if (board.getAttribute("totalPlayers") === board.getAttribute("currentPlayer")) {
-            alert("O jogo acabou!");
+            endGameScreen();
             return;
         }
         board.setAttribute("movesPlayed", 0);
@@ -207,31 +216,31 @@ function showPlayersNames(e) {
     var playersQuantity = parseInt(e.getAttribute("value"))
     switch (playersQuantity) {
         case 1:
-            document.getElementById("firstPlayerName").removeAttribute("hidden");
-            document.getElementById("secondPlayerName").setAttribute("hidden", "hidden");
-            document.getElementById("thirdPlayerName").setAttribute("hidden", "hidden");
-            document.getElementById("fourthPlayerName").setAttribute("hidden", "hidden");
+            document.getElementById("firstPlayerName").className = "";
+            document.getElementById("secondPlayerName").className = "hideInput";
+            document.getElementById("thirdPlayerName").className = "hideInput";
+            document.getElementById("fourthPlayerName").className = "hideInput";
             break;
 
         case 2:
-            document.getElementById("firstPlayerName").removeAttribute("hidden");
-            document.getElementById("secondPlayerName").removeAttribute("hidden");
-            document.getElementById("thirdPlayerName").setAttribute("hidden", "hidden");
-            document.getElementById("fourthPlayerName").setAttribute("hidden", "hidden");
+            document.getElementById("firstPlayerName").className = "";
+            document.getElementById("secondPlayerName").className = "";
+            document.getElementById("thirdPlayerName").className = "hideInput";
+            document.getElementById("fourthPlayerName").className = "hideInput";
             break;
 
         case 3:
-            document.getElementById("firstPlayerName").removeAttribute("hidden");
-            document.getElementById("secondPlayerName").removeAttribute("hidden");
-            document.getElementById("thirdPlayerName").removeAttribute("hidden");
-            document.getElementById("fourthPlayerName").setAttribute("hidden", "hidden");
+            document.getElementById("firstPlayerName").className = "";
+            document.getElementById("secondPlayerName").className = "";
+            document.getElementById("thirdPlayerName").className = "";
+            document.getElementById("fourthPlayerName").className = "hideInput";
             break;
 
         case 4:
-            document.getElementById("firstPlayerName").removeAttribute("hidden");
-            document.getElementById("secondPlayerName").removeAttribute("hidden");
-            document.getElementById("thirdPlayerName").removeAttribute("hidden");
-            document.getElementById("fourthPlayerName").removeAttribute("hidden");
+            document.getElementById("firstPlayerName").className = "";
+            document.getElementById("secondPlayerName").className = "";
+            document.getElementById("thirdPlayerName").className = "";
+            document.getElementById("fourthPlayerName").className = "";
             break;
     }
 }
@@ -249,7 +258,7 @@ function startGameOnClick() {
 function validatePlayers() {
     var childForm = document.getElementById("formPlayersName").children
     for (var i = 0; i < childForm.length; ++i) {
-        if (!childForm[i].hasAttribute("hidden")) {
+        if (childForm[i].className === "") {
             childForm[i].getElementsByTagName("input")[0].value;
             if (childForm[i].getElementsByTagName("input")[0].value === "") {
                 alert("Preencha o seu nome!");
@@ -257,24 +266,25 @@ function validatePlayers() {
             }
         }
     }
-
     return true;
 }
 function createMapPlayers() {
     var childForm = document.getElementById("formPlayersName").children;
     var countPlayers = 0;
     for (var i = 0; i < childForm.length; ++i) {
-        if (!childForm[i].hasAttribute("hidden")) {
+        if (childForm[i].className === "") {
             var playerName = childForm[i].getElementsByTagName("input")[0].value;
             var spanPlayer = document.createElement("span");
             spanPlayer.setAttribute("player", i);
             spanPlayer.setAttribute("score", 0);
             spanPlayer.setAttribute("name", playerName);
             document.getElementById("players").appendChild(spanPlayer);
+            var createPlayerDiv = document.createElement("div");
             var playerDisplay = document.createElement("h1");
             playerDisplay.textContent = playerName;
-            playerDisplay.className += "playerDisplay"; //Classe para fazer o css dos nomes ao lado do board
-            document.getElementById("playerNames").appendChild(playerDisplay);
+            createPlayerDiv.className += "playerDisplay"; //Classe para fazer o css dos nomes ao lado do board
+            createPlayerDiv.appendChild(playerDisplay)
+            document.getElementById("playerNames").appendChild(createPlayerDiv);
             ++countPlayers;
         }
     }
@@ -283,6 +293,32 @@ function createMapPlayers() {
 }
 function unlockPlay() {
     document.getElementById("changePlayerButton").className = "btn btn-info hideButton";
-
 }
 
+function endGameScreen() {
+    document.getElementById("grid").setAttribute("hidden", "hidden");
+    document.getElementById("divCurrentPlayerPlaying").setAttribute("hidden", "hidden");
+    var players = document.getElementsByClassName("playerDisplay");
+    for (i = players.length - 1; i >= 0; --i) {
+        var playersChild = players[i].getElementsByTagName("div");
+        if (playersChild.length > 0) {
+            for (j = 0; j < playersChild.length; ++j) {
+                playersChild[j].removeAttribute("hidden");
+            }
+        }
+        else {
+            var createPlayerDiv = document.createElement("div");
+            var createPlayerImg = document.createElement("img");
+            createPlayerImg.src = "../img/sadDolphin.png";
+            createPlayerDiv.className = "imageEndGameScore row";
+            createPlayerDiv.appendChild(createPlayerImg);
+            players[i].appendChild(createPlayerDiv);
+
+
+        }
+        players[i].className = "endGamePlayerDisplay";
+       
+    }
+    var playersNamesEndGameScreen = document.getElementById("playerNames");
+    playersNamesEndGameScreen.className = "col-12 text-center";
+}

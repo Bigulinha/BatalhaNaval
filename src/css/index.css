@@ -54,9 +54,9 @@
 
 #buttonPlayerSelect {
     margin-top: 2vh;
-    background: white;
+    /*background: white;
     border-radius: 8px;
-    border-color: black
+    border-color: black*/
 }
 
 #currentPlayerPlaying {
@@ -76,5 +76,16 @@
 }
 
 .hideButton{
+    visibility: hidden;
+}
+
+.imageEndGameScore img {
+    margin: 0 auto;
+    display: block;
+    width: auto;
+    height: 14vh;
+}
+
+.hideInput {
     visibility: hidden;
 }

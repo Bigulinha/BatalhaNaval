@@ -14,13 +14,13 @@
 
 <body>
 
-    <div class="blockquote" id="inicialPage">
+    <div class="blockquote text-center" id="inicialPage">
 
         <p>Selecione a quantidade de jogadores: </p>
         <div>
             <form>
                 <input type="radio" id="player1" onclick="showPlayersNames(this)" name="player" value="1" />
-                <label for="player1">1 Jogador</label><br>
+                <label for="player1">1 Jogador&nbsp;&nbsp;&nbsp;</label><br>
                 <input type="radio" id="player2" onclick="showPlayersNames(this)" name="player" value="2" />
                 <label for="player2">2 Jogadores</label><br>
                 <input type="radio" id="player3" onclick="showPlayersNames(this)" name="player" value="3" />
@@ -29,25 +29,25 @@
                 <label for="player 4">4 Jogadores</label>
             </form>
             <div id="formPlayersName">
-                <form hidden="hidden" id="firstPlayerName">
+                <form class="hideInput" id="firstPlayerName">
                     <label for="firstPlayerName">Nome do jogador 1:</label><br>
                     <input type="text" name="firstPlayerName" value=""><br>
                 </form>
-                <form hidden="hidden" id="secondPlayerName">
+                <form class="hideInput" id="secondPlayerName">
                     <label for="secondPlayerName">Nome do jogador 2:</label><br>
                     <input type="text" name="secondPlayerName"><br>
                 </form>
-                <form hidden="hidden" id="thirdPlayerName">
+                <form class="hideInput" id="thirdPlayerName">
                     <label for="thirdPlayerName">Nome do jogador 3:</label><br>
                     <input type="text" name="thirdPlayerName"><br>
                 </form>
-                <form hidden="hidden" id="fourthPlayerName">
+                <form class="hideInput" id="fourthPlayerName">
                     <label for="fourthPlayerName">Nome do jogador 4:</label><br>
                     <input type="text" name="fourthPlayerName"><br>
                 </form>
             </div>
 
-            <input id="buttonPlayerSelect" type="button" onclick="startGameOnClick()" value="Enviar">
+            <input id="buttonPlayerSelect" class="btn btn-info btn-lg" type="button" onclick="startGameOnClick()" value="Jogar!">
         </div>
 
 
@@ -61,7 +61,7 @@
             <div class="row">
                 <div id="playerNames" class="col-4 text-left">
 
-                    <div class="text-center">
+                    <div class="text-center" id="divCurrentPlayerPlaying">
                         <p id="currentPlayerPlaying"></p>
                         <button id="changePlayerButton" class="btn btn-info hideButton" onclick="unlockPlay()" >Minha vez!</button>
                     </div>
@@ -333,8 +333,9 @@
             </div>
         </div>
     </div>
-
-    <footer class="footer navbar-fixed-bottom" id="footer">
+    <div hidden="hidden" id="hiddenImagesScore"></div>
+    <footer class="footer fixed-bottom" id="footer">
+        <hr />
         <p>Desenvolvido por gurizada!</p>
     </footer>
 
