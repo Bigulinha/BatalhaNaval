@@ -90,3 +90,8 @@
 .hideInput {
     visibility: hidden;
 }
+
+.displayFix {
+    display: inline !important;
+    width: 20% !important;
+}
