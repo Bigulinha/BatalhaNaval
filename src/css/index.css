@@ -1,8 +1,9 @@
 ﻿body {
     background-image: url(img/background_page.png);
     background-repeat: no-repeat;
+    background-attachment: fixed;
     background-size: cover;
-    background-position: center;
+    background-position: bottom;
 }
 
 #grid {
