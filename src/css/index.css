@@ -51,6 +51,7 @@
     height: 100%;
     width: 100%;
     padding: 4vh;
+    font-size: 2.5vh;
 }
 
 #buttonPlayerSelect {
@@ -64,7 +65,7 @@
     text-align: center;
     margin-top: 7vh;
     margin-bottom: 3vh;
-    font-size: 30px;
+    font-size: 5vh;
 }
 
 #footer {
@@ -95,3 +96,4 @@
     display: inline !important;
     width: 20% !important;
 }
+

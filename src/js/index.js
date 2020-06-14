@@ -256,17 +256,22 @@ function startGameOnClick() {
     createMapPlayers();
 }
 function validatePlayers() {
-    var childForm = document.getElementById("formPlayersName").children
+    var isValid = true;
+    var childForm = document.getElementById("formPlayersName").children;
     for (var i = 0; i < childForm.length; ++i) {
         if (childForm[i].className === "") {
-            childForm[i].getElementsByTagName("input")[0].value;
-            if (childForm[i].getElementsByTagName("input")[0].value === "") {
-                alert("Preencha o seu nome!");
-                return false;
+            var textBoxInput = childForm[i].getElementsByTagName("input")[0].value;
+            textBoxInput = textBoxInput.trim();
+            if (textBoxInput === "") {
+                childForm[i].getElementsByTagName("span")[0].textContent = "Por favor, digite seu nome!";
+                isValid = false;
+            }
+            else {
+                childForm[i].getElementsByTagName("span")[0].textContent = "";
             }
         }
     }
-    return true;
+    return isValid;
 }
 function createMapPlayers() {
     var childForm = document.getElementById("formPlayersName").children;
@@ -317,7 +322,7 @@ function endGameScreen() {
 
         }
         players[i].className = "endGamePlayerDisplay";
-       
+
     }
     var playersNamesEndGameScreen = document.getElementById("playerNames");
     playersNamesEndGameScreen.className = "col-12 text-center";

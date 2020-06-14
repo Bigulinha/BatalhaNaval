@@ -30,20 +30,26 @@
             <form id="formPlayersName">
                 <div class="hideInput" id="firstPlayerName">
                     <label for="firstPlayerName">Nome do jogador 1:</label><br>
-                    <input class="form-control displayFix" type="text" name="firstPlayerName" value="" ><br>
+                    <input class="form-control displayFix" type="text" name="firstPlayerName" placeholder="Digite o nome do jogador 1"><br>
+                    <span class="text-danger"></span>
                 </div>
                 <div class="hideInput" id="secondPlayerName">
                     <label for="secondPlayerName">Nome do jogador 2:</label><br>
-                    <input class="form-control displayFix" type="text" name="secondPlayerName"><br>
+                    <input class="form-control displayFix" type="text" name="secondPlayerName" placeholder="Digite o nome do jogador 2"><br>
+                    <span class="text-danger" id="verifyPlayer2"></span>
                 </div>
                 <div class="hideInput" id="thirdPlayerName">
                     <label for="thirdPlayerName">Nome do jogador 3:</label><br>
-                    <input class="form-control displayFix" type="text" name="thirdPlayerName"><br>
+                    <input class="form-control displayFix" type="text" name="thirdPlayerName" placeholder="Digite o nome do jogador 3"><br>
+                    <span class="text-danger" id="verifyPlayer3"></span>
                 </div>
+
                 <div class="hideInput" id="fourthPlayerName">
                     <label for="fourthPlayerName">Nome do jogador 4:</label><br>
-                    <input class="form-control displayFix" type="text" name="fourthPlayerName"><br>
+                    <input class="form-control displayFix" type="text" name="fourthPlayerName" placeholder="Digite o nome do jogador 4"><br>
+                    <span class="text-danger" id="verifyPlayer4"></span>
                 </div>
+
                 <input id="buttonPlayerSelect" class="btn btn-info btn-lg" type="button" value="Jogar!" onclick="startGameOnClick()">
             </form>
         </div>
@@ -60,7 +66,7 @@
 
                     <div class="text-center" id="divCurrentPlayerPlaying">
                         <p id="currentPlayerPlaying"></p>
-                        <button id="changePlayerButton" class="btn btn-info hideButton" onclick="unlockPlay()" >Minha vez!</button>
+                        <button id="changePlayerButton" class="btn btn-info hideButton" onclick="unlockPlay()">Minha vez!</button>
                     </div>
 
                 </div>
