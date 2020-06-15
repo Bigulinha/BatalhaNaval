@@ -39,8 +39,8 @@
 }
 
 .cell img {
-    width: 100%;
-    height: 100%;
+    width: 98%;
+    height: 98%;
 }
 
 #boardScreen {
@@ -95,5 +95,10 @@
 .displayFix {
     display: inline !important;
     width: 20% !important;
+}
+
+.fullCell {
+    width: 100% !important;
+    height: 100% !important;
 }
 

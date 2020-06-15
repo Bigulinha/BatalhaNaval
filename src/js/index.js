@@ -148,6 +148,7 @@ function insertHtmlShipImg(row, column, shipSize, direction, count, currentShip)
     var selectedImage = selectedColumn.children[selectedColumn.childElementCount - 1];
     var newSrcImg = selectedImage.src.replace("water", "ships/" + direction + "/" + shipSize).replace("agua_tem_nada", count);
     selectedImage.src = newSrcImg;
+    selectedImage.className = "fullCell";
     if (count === 0) {
         selectedImage.setAttribute("remaining", shipSize);
         selectedImage.id = "ship" + shipSize + "position" + currentShip;
